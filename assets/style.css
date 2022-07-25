@@ -2,18 +2,6 @@ body {
     background-color:#EDEFEB;
     font-family: "Open Sans", verdana, arial, sans-serif;
   }
-  
-  .side_bar {
-    height: 100%;
-    width: 14%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #4B9072;
-    padding-left: 1%;
-    padding-right: 1%;
-    color:rgb(7, 7, 7);
-  }
 
   .text-area {
     color: rgb(14, 14, 14);
@@ -59,6 +47,7 @@ body {
   
   .row{
     display: flex;
+    align-items: center;
   }
   
   /* Boxes */
@@ -67,93 +56,10 @@ body {
     border-radius: 20px;
     background-color: #F9F9F8;
     margin: 10px;
-    padding: 25px;
+    padding: 10px;
     box-shadow: 2px 2px 2px lightgrey;
   }
 
-  .sidebar_item {
-    border-radius: 10px;
-    background-color: #ffffff;
-    margin-left: 5px;
-    margin-bottom: 5px;
-    padding: 10px;
-    box-shadow: 2px 2px 2px rgb(199, 199, 199);
-    width: 23rem;
-    align-items: center;
-  }
-
-  .menu_button {
-    border-radius: 10px;
-    background-color: #ffffff;
-    margin-left: 10px;
-    padding: 5px;
-    box-shadow: 2px 2px 2px lightgrey;
-    width: 4rem;
-  }
-  
-  .box_comment {
-    border-radius: 20px;
-    background-color: #d4f5c29a;
-    margin: 10px;
-    padding: 10px;
-    box-shadow: 2px 2px 2px lightgrey;
-    font-size: small;
-    text-align: center;
-    font-family: system-ui;
-  }
-  
-  .box_emissions{
-    border-radius: 20px;
-    background-color: #e9a8538e;    
-    margin: 2px;
-    box-shadow: 2px 2px 2px lightgrey;
-    justify-content: center;
-    width: 50%;
-    text-align: center;
-  }
-  /* Drop down */
-  #drop_map .VirtualizedSelectFocusedOption {
-    background-color:#ebb36abf;
-  }
-  
-  #drop_continent .VirtualizedSelectFocusedOption {
-    background-color:#ebb36abf;
-  }
-  
-  /* Radio buttons */
-  .radio {
-    display:flex;
-    justify-content: left;
-    place-content:space-around;
-    width: 88%;
-  }
-  
-  .radio input[type="radio"] {
-    opacity: 0;
-    position: absolute;
-  }
-  
-  .radio label {
-    display: table-caption;
-    background-color: #F9F9F8;
-    padding: 15px 15px;
-    font-size: 16px;
-    border: 2px solid #e9a8538e;
-    border-radius: 10px;
-    width: 200%;
-    text-align: center;
-  }
-  
-  .radio input[type="radio"]:checked + label {
-    background-color: #e98b1044;              
-    border: 2px solid #F9F9F8;
-  }
-  
-  .radio label:hover {
-    background-color: #e1e2df;
-    border: 2px solid #e1e2df;
-  }
-  
   /* Scrollbars */
   *::-webkit-scrollbar {
     width: 12px;               

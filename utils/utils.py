@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 import base64
 import io
+from itertools import islice
 
 
 #TODO: download nlkt stopwords
@@ -75,7 +76,7 @@ def filter_stopwords(text,stopword_list):
             filtered_words.append(word) #add word to filter_words list if it meets the above conditions
 #     filtered_words.sort() #sort filtered_words list
     return filtered_words
-    
+
 def stem_words(words):
     '''stems the word list using the French Stemmer'''
     #stemming words
@@ -99,10 +100,7 @@ def normalize_counts(counts):
 def get_words_counts(words):
     '''get the number of occurence of each word in words'''
     return dict([(word, words.count(word)) for word in set(words)])
-        
-def sorted_dict(d):
-    '''sort a dictionary by key'''
-    return dict(sorted(d.items(), key=lambda item: item[1], reverse=True))
+
 
 def tokenize(path):
     # read raw text
@@ -177,3 +175,28 @@ def text_to_wordcloud(path, n_words=2, max_words=100, width=1600, height=900, ba
     my_base64_jpgData = 'data:image/png;base64,' + base64.b64encode(my_stringIObytes.read()).decode("utf-8")
 
     return my_base64_jpgData
+
+
+def get_holoniq_wordcloud_data(path, n_words=2, max_words=50):
+    raw = get_raw_text(path)
+    sentences = sent_tokenize(raw)
+    stopwords = get_stopwords()
+    tokenized_sentences = []
+    for sentence in sentences:
+        nltk_text = get_nltk_text(sentence)
+        filtered = filter_stopwords(nltk_text, stopwords)
+        grouped = groupper(filtered, n_words)
+        tokenized_sentences.append(grouped)
+    results = []
+    for l in tokenized_sentences:
+        results += l
+    frequencies = get_words_counts(results)
+    # sort frequencies
+    sorted_frequencies = sort_dictionary(frequencies)
+    # get the top max_words words
+    top_words = dict(islice(sorted_frequencies, max_words))
+    data = []
+    for item in top_words.items():
+        data.append([item[0],item[1]])
+
+    return data
