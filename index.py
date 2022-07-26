@@ -31,6 +31,7 @@ app.layout = html.Div(children=[
                         className="text-area",
                         id="text-input",
                         placeholder="Input text here...",
+                        value='',
                     ),
                 ],
             ),
@@ -38,23 +39,32 @@ app.layout = html.Div(children=[
                 className="row box",
                 children=[
                     html.Div(
-                        className='col-md-4',
+                        className='col-md-3',
                         children=[
                             html.H4('N words'),
-                            dcc.Dropdown([1, 2, 3], 2, id="n-words-dropdown", clearable=False),
+                            dcc.Dropdown([1, 2, 3], 1, id="n-words-dropdown", clearable=False),
                         ],
                     ),
                     html.Div(
-                        className='col-md-4',
+                        className='col-md-3',
                         children=[
                             html.H4('Max words'),
-                            dcc.Dropdown([10, 20, 30, 40, 50],
-                                         20,
+                            dcc.Dropdown([10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+                                         30,
                                          id="max-words-dropdown", clearable=False),
                         ],
                     ),
+                     html.Div(
+                        className='col-md-3',
+                        children=[
+                            html.H4('Chart Type'),
+                            dcc.Dropdown(["Static", "Interactive"],
+                                         "Static",
+                                         id="wordcloud-type", clearable=False),
+                        ],
+                    ),
                     html.Div(
-                        className='col-md-4',
+                        className='col-md-3',
                         children=[
                             dbc.Button(
                                 "Generate Wordcloud",
@@ -63,28 +73,16 @@ app.layout = html.Div(children=[
                                 n_clicks=0,
                             ),
                         ],
-                        
+
                     ),
                 ],
             ),
-            # html.Div([
-            #     DashWordcloud(id='wordcloud',
-            #                   list=security_data,
-            #                   width=900,
-            #                   height=600,
-            #                   gridSize=30,
-            #                   color='#f0f0c0',
-            #                   backgroundColor='#001f00',
-            #                   shuffle=False,
-            #                   rotateRatio=0.5,
-            #                   shrinkToFit=True,
-            #                   shape='circle',
-            #                   hover=True),
-            # ], className="row box", ),
             html.Div(
                 className="row box",
                 children=[
-                    html.Div(id='output-text'),
+                    html.H5("WordCloud"),
+                    html.Br(),
+                    html.Div(id='wordcloud'),
                 ],
             ),
         ],
@@ -93,38 +91,38 @@ app.layout = html.Div(children=[
 
 
 @app.callback(
-    Output('output-text', 'children'),
+    Output('wordcloud', 'children'),
     Input('wordcloud-button', 'n_clicks'),
     State('text-input', 'value'),
     State('n-words-dropdown', 'value'),
     State("max-words-dropdown", 'value'),
+    State("wordcloud-type", 'value'),
 )
-def generate_word_cloud(n_clicks, text, n_words, max_words):
-    #TODO: add error handling
-    if n_clicks > 0:
-        
-        # image = utils.text_to_wordcloud(text, int(n_words), int(max_words))
-        # return html.Img(src=image, style={'width': '100%'})
-        # return str(utils.text_to_frequencies(text, int(n_words)))
-        data = utils.get_holoniq_wordcloud_data(text, int(n_words), int(max_words))
-        print(data)
-        return DashWordcloud(id='wordcloud',
-                              list=data,
-                              width=900,
-                              height=600,
-                              gridSize=16,
-                              color='#f0f0c0',
-                              backgroundColor='#001f00',
-                              shuffle=False,
-                              rotateRatio=0.5,
-                              shrinkToFit=True,
-                              shape='circle',
-                              hover=True,
-                              drawOutOfBound=False,
-                              weightFactor=16,
-                              ),
+def generate_word_cloud(n_clicks, text, n_words, max_words, wordcloud_type):
+    if (n_clicks > 0) & (text != ''):
+        if wordcloud_type == "Static":
+            image = utils.text_to_wordcloud(text, int(n_words), int(max_words))
+            wordcloud = html.Img(src=image, style={'width': '100%'})
+            return wordcloud
+        else:
+            data = utils.get_holoniq_wordcloud_data(text, int(n_words), int(max_words))
+            holoniq_wordcloud = DashWordcloud(id='holoniq-wordcloud',
+                                list=data,
+                                width=900,
+                                height=420,
+                                gridSize=16,
+                                color='#f0f0c0',
+                                backgroundColor='#001f00',
+                                shuffle=False,
+                                rotateRatio=0.5,
+                                shape='circle',
+                                hover=True,
+                                weightFactor=16,
+                                shrinkToFit=True,
+                                ),
+            return holoniq_wordcloud
     else:
-        return html.H5(':) !')
+        return html.H6('Results will appear here...')
 
 
 # start the application

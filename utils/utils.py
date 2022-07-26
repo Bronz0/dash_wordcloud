@@ -87,7 +87,7 @@ def stem_words(words):
         stemmed_words.append(stemmed_word) #add it to our stemmed word list
     stemmed_words.sort() #sort the stemmed_words
     return stemmed_words
-   
+
 def sort_dictionary(dictionary):
     '''returns a sorted dictionary (as tuples) based on the value of each key'''
     return sorted(dictionary.items(), key=lambda x: x[1], reverse=True)
@@ -101,7 +101,6 @@ def get_words_counts(words):
     '''get the number of occurence of each word in words'''
     return dict([(word, words.count(word)) for word in set(words)])
 
-
 def tokenize(path):
     # read raw text
     raw = get_raw_text(path)
@@ -112,7 +111,7 @@ def tokenize(path):
     # filter stop words
     filtered_tokens = filter_stopwords(nltk_text, stopwords)
     words_counts = get_words_counts(filtered_tokens)
-    sorted_tokens = sorted_dict(words_counts)
+    sorted_tokens = sort_dictionary(words_counts)
 #     df = pd.DataFrame(list(sorted_tokens.items()), columns=["word", "count"])
     return sorted_tokens
 
@@ -147,7 +146,6 @@ def frequencies_to_wordcloud(frequencies, max_words=100, width=1600, height=900,
     plt.figure(figsize=[fig_w,fig_h])
     plt.imshow(wordcloud, interpolation="bilinear")
 
-
 def text_to_wordcloud(path, n_words=2, max_words=100, width=1600, height=900, background_color='white', min_font_size=10, fig_w=24, fig_h=13.5):    
     raw = get_raw_text(path)
     sentences = sent_tokenize(raw)
@@ -164,7 +162,7 @@ def text_to_wordcloud(path, n_words=2, max_words=100, width=1600, height=900, ba
     frequencies = get_words_counts(results)
     wordcloud = WordCloud(width=width, height=height, max_words=max_words,  background_color=background_color, min_font_size=min_font_size).generate_from_frequencies(frequencies)
     # set the figsize
-    plt.figure(figsize=[fig_w,fig_h])
+    figure = plt.figure(figsize=[fig_w,fig_h])
     img = plt.imshow(wordcloud, interpolation="nearest")
     plt.axis('off')
 
@@ -175,7 +173,6 @@ def text_to_wordcloud(path, n_words=2, max_words=100, width=1600, height=900, ba
     my_base64_jpgData = 'data:image/png;base64,' + base64.b64encode(my_stringIObytes.read()).decode("utf-8")
 
     return my_base64_jpgData
-
 
 def get_holoniq_wordcloud_data(path, n_words=2, max_words=50):
     raw = get_raw_text(path)
@@ -197,6 +194,6 @@ def get_holoniq_wordcloud_data(path, n_words=2, max_words=50):
     top_words = dict(islice(sorted_frequencies, max_words))
     data = []
     for item in top_words.items():
-        data.append([item[0],item[1]])
+        data.append([item[0], item[1], "("+str(item[0])+": "+str(item[1])+")"])
 
     return data
