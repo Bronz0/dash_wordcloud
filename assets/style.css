@@ -6,6 +6,10 @@ body {
   .text-area {
     color: rgb(14, 14, 14);
     font-size: 0.8rem !important;
+    width: 98%;
+    height: 60px;
+    line-height: 14px;
+    border-radius: 5px;
   }
   
   .main {
