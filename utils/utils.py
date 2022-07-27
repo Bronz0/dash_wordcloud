@@ -15,6 +15,7 @@ from itertools import islice
 
 
 #TODO: download nlkt stopwords
+nltk.download('punkt')
 
 #reading in the raw text from the file
 def get_raw_text(path):
