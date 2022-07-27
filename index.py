@@ -9,15 +9,10 @@ from components import navbar
 
 from app import app
 
-security_data = [
-    ["Equity", 74, "Zillions of equity based funds"],
-    ["Bond", 45],
-    ["Global", 30],
-    ["Sector Equity", 17],
-    ["EUR", 15],
-    ["Large Cap", 13],
-    ["Europe", 11],
-]
+app = app
+server = app.server
+
+
 # application layout
 app.layout = html.Div(
     children=[
